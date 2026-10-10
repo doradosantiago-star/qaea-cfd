@@ -19,7 +19,7 @@ dos partes independientes:
 Cada parte tiene su propio `README.md` con los detalles. Lo que sigue es lo mínimo para
 arrancar.
 
-## Parte cuántica en dos minutos
+## Parte cuántica
 
 ```bash
 cd qae_cfd
@@ -54,7 +54,7 @@ La corrida completa de la tobera con el circuito (34 800 estimaciones) toma unas
 por semilla en un portátil. Los JSON entregados son los de las corridas del documento,
 así que las figuras se regeneran sin volver a correr nada.
 
-## Parte OpenFOAM en dos minutos
+## Parte OpenFOAM
 
 ```bash
 source /opt/openfoam13/etc/bashrc        # o el equivalente de la instalación
