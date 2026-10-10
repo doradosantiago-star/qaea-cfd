@@ -24,7 +24,7 @@ OUT = Path(__file__).resolve().parents[1] / "figuras"
 DX = np.array([0.04, 0.02, 0.01])            # 75x20, 150x40, 300x80
 MALLAS = ["$75\\times20$", "$150\\times40$", "$300\\times80$"]
 DATOS = {
-    # nombre, media por malla, desviación, p, extrapolado, GCI fina (%), analítico
+    # nombre, media por malla, desviación, p, extrapolado, GCI fina (%), exacto
     "xs": dict(etq="Posición del choque $x_s$ [m]", f=[2.0835, 2.0976, 2.1027],
                s=[0.0150, 0.0066, 0.0028], p=1.48, ext=2.1055, gci=0.17, ana=2.1098),
     "M1": dict(etq="Número de Mach previo al choque $M_1$", f=[1.9340, 2.0126, 2.0394],
@@ -49,7 +49,7 @@ for ax, (clave, d), panel in zip(axes, DATOS.items(), "ab"):
     banda = d["gci"] / 100 * f[2]
     ax.errorbar([DX[2] - 0.0025], [f[2]], yerr=[banda], fmt="none", ecolor="k", capsize=5, lw=1.5,
                 label="Banda del índice de convergencia de la malla fina")
-    ax.axhline(d["ana"], color="k", ls="--", lw=1.2, label="Solución analítica cuasi-unidimensional")
+    ax.axhline(d["ana"], color="k", ls="--", lw=1.2, label="Solución exacta cuasi-unidimensional")
     ax.set(xlabel="Tamaño de celda $\\Delta x$ [m]", ylabel=d["etq"],
            title=f"({panel}) {d['etq'].split(' [')[0].split(' $')[0]}, orden aparente $p = {d['p']}$",
            xlim=(-0.003, 0.047))

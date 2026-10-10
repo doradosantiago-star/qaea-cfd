@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Figura de validacion del caso cdNozzle2D para el Capitulo 3.
 
-(a) Mach sobre el eje: solucion analitica cuasi-1D con choque normal frente
+(a) Mach sobre el eje: solucion exacta cuasi-1D con choque normal frente
     a las mallas 150x40 y 300x80 (p_e = 67 875 Pa).
 (b) Posicion del choque en los siete regimenes de contrapresion: prediccion
-    analitica frente al CFD (promedio de las ultimas seis escrituras).
+    exacta frente al CFD (promedio de las ultimas seis escrituras).
 
 Uso (desde openfoam/):
     python3 herramientas/figura_capitulo3.py <carpeta_de_salida>
@@ -62,7 +62,7 @@ fig, (a1, a2) = plt.subplots(1, 2, figsize=(11, 4.8))
 # (a) perfil axial
 xt = np.linspace(0.0, 3.0, 1201)
 Mt, xs = perfil_teorico(67875.0, xt)
-a1.plot(xt, Mt, "k-", lw=2, label="Analítica cuasi-1D")
+a1.plot(xt, Mt, "k-", lw=2, label="Solución exacta cuasi-1D")
 for caso, estilo, etiqueta in [("geo20p", "C0--", r"CFD $150\times40$"),
                                ("m300", "C3-", r"CFD $300\times80$")]:
     x, M = leer(caso)
@@ -82,13 +82,13 @@ sd = np.array([float(f["desv_m"]) for f in filas])
 x_th = np.array([choque_teorico(p) for p in pe])
 orden = np.argsort(pe)
 lim = [1.7, 2.58]
-a2.plot(lim, lim, "k-", lw=1, label="CFD = analítica")
+a2.plot(lim, lim, "k-", lw=1, label="CFD = exacta")
 a2.errorbar(x_th[orden], x_cfd[orden], yerr=sd[orden], fmt="o", color="C0",
             ms=5, capsize=3, label=r"CFD $150\times40$")
 for xt_, xc_, p in zip(x_th, x_cfd, pe):
     a2.annotate(f"{p/1000:.0f} kPa", (xt_, xc_), textcoords="offset points",
                 xytext=(6, -10), fontsize=9)
-a2.set(xlim=lim, ylim=lim, xlabel="Posición analítica del choque [m]",
+a2.set(xlim=lim, ylim=lim, xlabel="Posición exacta del choque [m]",
        ylabel="Posición del choque en el CFD [m]", title="(b) Siete contrapresiones")
 a2.set_aspect("equal")
 a2.legend(fontsize=10, loc="upper left")
@@ -96,4 +96,4 @@ a2.legend(fontsize=10, loc="upper left")
 fig.tight_layout()
 OUT.mkdir(parents=True, exist_ok=True)
 fig.savefig(OUT / "fig_openfoam_validacion_es.pdf")
-print("escrito", OUT / "fig_openfoam_validacion_es.pdf", f"(x_s analitico = {xs:.4f})")
+print("escrito", OUT / "fig_openfoam_validacion_es.pdf", f"(x_s exacto = {xs:.4f})")
