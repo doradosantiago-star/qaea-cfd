@@ -1,0 +1,15 @@
+% Esquema del estimador de amplitud canónico (Brassard et al. 2002; Nielsen y
+% Chuang, sec. 5.2) con m cúbits de precisión. Compilar con tectonic; el PDF
+% va a Imagenes/fig_esquema_qaea_es.pdf.
+\documentclass[border=4pt]{standalone}
+\usepackage{tikz}
+\usepackage{quantikz}
+\begin{document}
+\begin{quantikz}[row sep={0.75cm,between origins}, column sep=0.5cm]
+\lstick{sistema $\ket{0}^{\otimes n}$} & \qwbundle{n} & \gate{A} & \gate{Q^{2^{m-1}}} & \ \ldots\ \qw & \gate{Q^{2}} & \gate{Q} & \qw & \qw \\
+\lstick{precisión $\ket{0}$} & \gate{H} & \qw & \ctrl{-1} & \ \ldots\ \qw & \qw & \qw & \gate[4, nwires={2}]{\mathrm{QFT}^{\dagger}} & \meter{} \\
+\lstick{$\vdots$} & & & & & & & & \\
+\lstick{$\ket{0}$} & \gate{H} & \qw & \qw & \ \ldots\ \qw & \ctrl{-3} & \qw & & \meter{} \\
+\lstick{$\ket{0}$} & \gate{H} & \qw & \qw & \ \ldots\ \qw & \qw & \ctrl{-4} & & \meter{}
+\end{quantikz}
+\end{document}

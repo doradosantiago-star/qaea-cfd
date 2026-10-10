@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Salidas de los guiones (se regeneran)
+Imagenes/*
+!Imagenes/README.md
+openfoam/figuras/*
+!openfoam/figuras/README.md
+
+# OpenFOAM: todo lo que produce una corrida
+openfoam/cdNozzle2D/log.*
+openfoam/cdNozzle2D/[0-9]*.[0-9]*/
+openfoam/cdNozzle2D/constant/polyMesh/
+openfoam/cdNozzle2D/postProcessing/
+openfoam/cdNozzle2D/processor*/
+
+# Sistema
+.DS_Store

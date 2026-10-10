@@ -1,0 +1,52 @@
+{
+ "1": {
+  "logical": 224,
+  "logical_qft_expanded": 240,
+  "controlled_ry": 63,
+  "elementary": 240,
+  "two_qubit": 198,
+  "depth_logical": 215,
+  "depth_elementary": 224,
+  "wires": 6
+ },
+ "2": {
+  "logical": 412,
+  "logical_qft_expanded": 428,
+  "controlled_ry": 126,
+  "elementary": 1854,
+  "two_qubit": 913,
+  "depth_logical": 403,
+  "depth_elementary": 1530,
+  "wires": 7
+ },
+ "4": {
+  "logical": 663,
+  "logical_qft_expanded": 679,
+  "controlled_ry": 252,
+  "elementary": 11255,
+  "two_qubit": 4430,
+  "depth_logical": 653,
+  "depth_elementary": 7824,
+  "wires": 8
+ },
+ "8": {
+  "logical": 1040,
+  "logical_qft_expanded": 1056,
+  "controlled_ry": 504,
+  "elementary": 37444,
+  "two_qubit": 13826,
+  "depth_logical": 1029,
+  "depth_elementary": 24854,
+  "wires": 9
+ },
+ "16": {
+  "logical": 1669,
+  "logical_qft_expanded": 1685,
+  "controlled_ry": 1008,
+  "elementary": 166623,
+  "two_qubit": 63698,
+  "depth_logical": 1657,
+  "depth_elementary": 104183,
+  "wires": 10
+ }
+}

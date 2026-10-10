@@ -1,0 +1,85 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  13                                    |
+|   \\  /    A nd           | Website:  www.openfoam.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solver          shockFluid;
+
+startFrom       latestTime;
+startTime       0;
+
+stopAt          endTime;
+endTime         0.15;
+
+deltaT          1e-7;
+
+writeControl    adjustableRunTime;
+writeInterval   5e-3;
+
+purgeWrite      0;
+writeFormat     ascii;
+writePrecision  8;
+writeCompression off;
+
+timeFormat      general;
+timePrecision   6;
+runTimeModifiable yes;
+
+adjustTimeStep  yes;
+maxCo           0.4;
+maxDeltaT       1e-4;
+
+functions
+{
+    MachNo
+    {
+        type            MachNo;
+        libs            ("libfieldFunctionObjects.so");
+        writeControl    writeTime;
+    }
+
+    axisSampling
+    {
+        type            sets;
+        libs            ("libsampling.so");
+        writeControl    writeTime;
+        interpolationScheme cellPoint;
+        setFormat       csv;
+        fields          (rho U T p Ma);
+
+        sets
+        (
+            axialLine
+            {
+                type    lineUniform;
+                axis    x;
+                start   (0.0 0.0005 0.05);
+                end     (3.0 0.0005 0.05);
+                nPoints 301;
+            }
+        );
+    }
+
+    residuals
+    {
+        type            residuals;
+        libs            ("libutilityFunctionObjects.so");
+        writeControl    timeStep;
+        writeInterval   50;
+        fields          (p U T rho);
+    }
+}
+
+// ************************************************************************* //

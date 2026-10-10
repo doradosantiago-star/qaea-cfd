@@ -1,0 +1,117 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2212                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Mesh of the upper half of the convergent-divergent nozzle.
+// Geometry follows the analytical area distribution
+//     A(x) = 1 + 2.2 (x - 1.5)^2,  x in [0, 3].
+// The wall is a cubic spline through the points listed below.
+// This file is byte-equivalent to the listing reproduced in Appendix A.
+
+// ---------------------------------------------------------------------------
+// ESCALA TRANSVERSAL - decision de modelado (2026-09-10)
+//
+// A(x) = 1 + 2.2 (x - 1.5)^2 es la ley de areas ADIMENSIONAL de Anderson, no
+// un contorno fisico. Tomarla como semialtura en metros sobre un dominio de
+// 3 m produce paredes de hasta 73 grados: el flujo se despega y forma un
+// chorro, y la hipotesis cuasi-1D deja de valer (variacion de Mach del 92 %
+// a traves de la seccion en x = 2.0).
+//
+// Aqui la coordenada y esta dividida por 20 respecto de esa lectura literal.
+// Los cocientes A/A* NO cambian, luego la solucion cuasi-1D de referencia es
+// identica; solo baja el angulo de pared, a 9.4 grados en la salida. Con eso
+// la variacion transversal cae al 2.3 % y el perfil coincide con la teoria
+// isentropica dentro del 0.2-2 %.
+//
+// El resultado no depende del factor exacto: escalas 10, 20 y 40 situan el
+// choque dentro de 0.010 m (media celda). El criterio es el angulo de pared,
+// no el numero.
+// ---------------------------------------------------------------------------
+
+scale   1;
+
+vertices
+(
+    (0 0 0)          // 0: Bottom Inlet (Symmetry axis)
+    (3 0 0)          // 1: Bottom Outlet (Symmetry axis)
+    (0 0 0.1)        // 2: Bottom Inlet Z
+    (3 0 0.1)        // 3: Bottom Outlet Z
+    (0 0.14875 0)      // 4: Top Inlet
+    (3 0.14875 0)      // 5: Top Outlet
+    (0 0.14875 0.1)    // 6: Top Inlet Z
+    (3 0.14875 0.1)    // 7: Top Outlet Z
+);
+
+blocks
+(
+    // Hexahedral block: 150 cells in X, 40 cells in Y, 1 cell in Z (2D)
+    hex (0 1 5 4 2 3 7 6) (150 40 1) simpleGrading (1 1 1)
+);
+
+edges
+(
+    // Top wall spline - Front face
+    spline 4 5
+    (
+        (0.5 0.08 0)
+        (1.0 0.03875 0)
+        (1.5 0.025 0)   // Throat
+        (2.0 0.03875 0)
+        (2.5 0.08 0)
+    )
+    // Top wall spline - Back face
+    spline 6 7
+    (
+        (0.5 0.08 0.1)
+        (1.0 0.03875 0.1)
+        (1.5 0.025 0.1) // Throat
+        (2.0 0.03875 0.1)
+        (2.5 0.08 0.1)
+    )
+);
+
+boundary
+(
+    inlet
+    {
+        type patch;
+        faces ((0 4 6 2));
+    }
+    outlet
+    {
+        type patch;
+        faces ((1 3 7 5));
+    }
+    topWall
+    {
+        type wall;
+        faces ((4 5 7 6));
+    }
+    bottomWall
+    {
+        type symmetryPlane;
+        faces ((0 2 3 1));
+    }
+    frontAndBack
+    {
+        type empty;
+        faces
+        (
+            (0 1 5 4)
+            (2 6 7 3)
+        );
+    }
+);
+// ************************************************************************* //

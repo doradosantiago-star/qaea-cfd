@@ -1,0 +1,29 @@
+#!/bin/sh
+# Caso cdNozzle2D corregido - OpenFOAM 13 (Foundation)
+#
+# Incorpora las dos decisiones de modelado documentadas en ../README.md:
+#   - escala transversal cuasi-1D (ver cabecera de system/blockMeshDict)
+#   - contrapresion fixedValue justificada (ver cabecera de 0/p)
+#
+# Requiere el entorno cargado: source /opt/openfoam13/etc/bashrc
+cd "$(dirname "$0")" || exit 1
+
+blockMesh > log.blockMesh 2>&1 || { echo "blockMesh fallo, ver log.blockMesh"; exit 1; }
+
+# Guarda obligatoria: un blockMeshDict mal editado produce una malla valida
+# pero inservible SIN dar ningun error. blockMesh y checkMesh reportan exito
+# igual. Ver la seccion de trampas en ../README.md
+CELDAS=$(grep -m1 nCells: log.blockMesh | tr -dc '0-9')
+if [ "$CELDAS" != "6000" ]; then
+    echo "ABORTA: se esperaban 6000 celdas y blockMesh produjo '$CELDAS'"
+    exit 1
+fi
+echo "malla ok: $CELDAS celdas"
+
+checkMesh > log.checkMesh 2>&1 || { echo "checkMesh fallo, ver log.checkMesh"; exit 1; }
+foamRun   > log.foamRun   2>&1 || { echo "foamRun fallo, ver log.foamRun"; exit 1; }
+
+echo "Listo. Para diagnosticar:"
+echo "  ../../herramientas/choque.sh ."
+echo "  ../../herramientas/balance.sh ."
+echo "  python3 ../../herramientas/regimen.py perfil ."

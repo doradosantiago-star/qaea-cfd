@@ -1,0 +1,49 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2212                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      thermophysicalProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Ideal-gas air with constant cp. Viscosity is set to zero to enforce the
+// inviscid limit used throughout the thesis (Euler equations).
+
+thermoType
+{
+    type            hePsiThermo;
+    mixture         pureMixture;
+    transport       const;
+    thermo          hConst;
+    equationOfState perfectGas;
+    specie          specie;
+    energy          sensibleInternalEnergy;
+}
+
+mixture
+{
+    specie
+    {
+        molWeight       28.96;      // g/mol, standard air
+    }
+    thermodynamics
+    {
+        Cp              1004.4;     // J/(kg K)
+        Hf              0;
+    }
+    transport
+    {
+        mu              0;          // inviscid flow
+        Pr              1;          // irrelevant when mu = 0
+    }
+}
+
+// ************************************************************************* //

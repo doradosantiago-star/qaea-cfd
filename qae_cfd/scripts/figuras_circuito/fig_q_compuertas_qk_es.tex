@@ -1,0 +1,20 @@
+% Una aplicación de Q = -A S0 A^dag S_chi sobre el registro del sistema
+% (dos cúbits de índice y la ancilla), en el orden de la cinta de PennyLane
+% con M = 4, partida en dos filas. Los ángulos son 2*theta_j = 2*arcsin(sqrt(g_j)).
+% Compilar con tectonic; el PDF va a Imagenes/fig_q_compuertas_qk_es.pdf.
+\documentclass[border=4pt,varwidth=20cm]{standalone}
+\usepackage{tikz}
+\usepackage{quantikz}
+\begin{document}
+\centering
+\begin{quantikz}[row sep={0.7cm,between origins}, column sep=0.25cm]
+\lstick{índice $q_0$} & \qw & \ctrl{2} & \ctrl{2} & \octrl{2} & \octrl{2} & \gate{H} & \qw & \ \ldots\ \qw \\
+\lstick{índice $q_1$} & \qw & \ctrl{1} & \octrl{1} & \ctrl{1} & \octrl{1} & \gate{H} & \qw & \ \ldots\ \qw \\
+\lstick{ancilla $q_2$} & \gate{Z} & \gate{RY(-2\theta_3)} & \gate{RY(-2\theta_2)} & \gate{RY(-2\theta_1)} & \gate{RY(-2\theta_0)} & \qw & \qw & \ \ldots\ \qw
+\end{quantikz}\par\medskip
+\begin{quantikz}[row sep={0.7cm,between origins}, column sep=0.25cm]
+\lstick{$q_0$} & \ \ldots\ \qw & \gate{X} & \ctrl{2} & \gate{X} & \gate{H} & \octrl{2} & \octrl{2} & \ctrl{2} & \ctrl{2} & \qw \\
+\lstick{$q_1$} & \ \ldots\ \qw & \gate{X} & \ctrl{1} & \gate{X} & \gate{H} & \octrl{1} & \ctrl{1} & \octrl{1} & \ctrl{1} & \qw \\
+\lstick{$q_2$} & \ \ldots\ \qw & \gate{X} & \gate{Z} & \gate{X} & \qw & \gate{RY(2\theta_0)} & \gate{RY(2\theta_1)} & \gate{RY(2\theta_2)} & \gate{RY(2\theta_3)} & \qw
+\end{quantikz}
+\end{document}

@@ -1,0 +1,14 @@
+# QAEA-CFD: Dependencias
+# =====================
+
+# Core
+numpy>=1.24.0
+matplotlib>=3.7.0
+
+# Circuito cuántico (obligatorio: no hay ruta analítica ni backend alternativo)
+pennylane>=0.44.0
+
+# Desarrollo (opcional)
+# pytest>=7.0.0
+# black>=23.0.0
+# mypy>=1.0.0

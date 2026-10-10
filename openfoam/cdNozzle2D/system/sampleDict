@@ -1,0 +1,46 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2212                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      sampleDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Standalone sampling dictionary for postProcess -func sample.
+// Produces CSV files of the axial profiles inside postProcessing/sample/.
+
+type            sets;
+libs            (sampling);
+interpolationScheme cellPoint;
+setFormat       csv;
+
+fields
+(
+    rho
+    U
+    T
+    p
+    Ma
+);
+
+sets
+(
+    axialLine
+    {
+        type    uniform;
+        axis    x;
+        start   (0.0   0.01 0.05);
+        end     (3.0   0.01 0.05);
+        nPoints 301;
+    }
+);
+
+// ************************************************************************* //

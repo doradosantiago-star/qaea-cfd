@@ -1,0 +1,48 @@
+{
+ "backend": "ibm_marrakesh",
+ "procesador": {
+  "family": "Heron",
+  "revision": "2"
+ },
+ "n_qubits": 156,
+ "por_fecha": {
+  "2026-07-30": {
+   "fecha_calibracion": "2026-07-30 06:24:55-05:00",
+   "compuertas_2q": [
+    "cz",
+    "rzz"
+   ],
+   "n_pares_2q": 668,
+   "error_2q_mediano": 0.002677426497730326,
+   "error_2q_min": 0.0011001642133809386,
+   "error_2q_max": 0.1690302992797538,
+   "error_lectura_mediano": 0.01104736328125,
+   "T1_mediano_us": 147.94291903261094,
+   "T2_mediano_us": 77.20900149327525,
+   "duracion_2q_ns": 68.0,
+   "duracion_1q_ns": 36.0,
+   "fidelidad_acumulada_4430_2q": 6.949045393285808e-06,
+   "compuertas_2q_para_fidelidad_0.5": 258.53887723982416,
+   "duracion_circuito_estimada_us": 532.032
+  },
+  "hoy": {
+   "fecha_calibracion": "2026-10-09 12:10:41-05:00",
+   "compuertas_2q": [
+    "cz",
+    "rzz"
+   ],
+   "n_pares_2q": 672,
+   "error_2q_mediano": 0.003058389034640785,
+   "error_2q_min": 0.0008394008772152906,
+   "error_2q_max": 0.12941576034231927,
+   "error_lectura_mediano": 0.0164794921875,
+   "T1_mediano_us": 150.38927296537315,
+   "T2_mediano_us": 80.70114359271732,
+   "duracion_2q_ns": 68.0,
+   "duracion_1q_ns": 36.0,
+   "fidelidad_acumulada_4430_2q": 1.2790098859091246e-06,
+   "compuertas_2q_para_fidelidad_0.5": 226.2912516137139,
+   "duracion_circuito_estimada_us": 532.032
+  }
+ }
+}

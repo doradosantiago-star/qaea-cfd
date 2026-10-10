@@ -1,0 +1,73 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2212                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Static-pressure field. The outlet value is tuned to place the normal
+// shock near x = 2.1, following the analytical construction of Anderson
+// (2003, Ch. 5). Adjust the back-pressure ratio to explore other regimes.
+
+// ---------------------------------------------------------------------------
+// CONTRAPRESION - decision documentada (2026-09-10)
+//
+// Se conserva fixedValue. La frontera reflectiva provoca una oscilacion
+// auto-sostenida SOLO en la geometria original de gran angulo, donde la capa
+// de corte del chorro despegado la alimenta. En la geometria cuasi-1D de este
+// caso el choque queda quieto: x = 2.08-2.10 m durante las ultimas seis
+// escrituras, con balance de masa por debajo del 1 %.
+//
+// NO usar waveTransmissive aqui: durante el arranque la salida es supersonica
+// y una frontera caracteristica no puede imponer contrapresion contra ella,
+// de modo que la solucion converge al caso isentropico sin choque (pe = 1445 Pa
+// en vez de 67875). waveTransmissive con lInf = 1.5 si es la correccion
+// adecuada para la geometria original.
+// ---------------------------------------------------------------------------
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 101325;      // Pa; initial inviscid fill
+
+boundaryField
+{
+    inlet
+    {
+        type            totalPressure;
+        p0              uniform 101325;     // stagnation pressure p0
+        gamma           1.4;
+        value           uniform 101325;
+    }
+
+    outlet
+    {
+        type            fixedValue;
+        value           uniform 67875;      // p_e / p0 ~ 0.67 -> shock at x ~ 2.1
+    }
+
+    topWall
+    {
+        type            zeroGradient;
+    }
+
+    bottomWall
+    {
+        type            symmetryPlane;
+    }
+
+    frontAndBack
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
